@@ -10,7 +10,7 @@ class Artiste(models.Model):
     artiste_id = models.CharField(max_length=25,primary_key=True, serialize=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    age = models.IntegerField(default=0)
+    age = models.IntegerField(default= NULL)
     
 
 class Song(models.Model):
