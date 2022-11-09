@@ -1,3 +1,6 @@
+from django.db import models
+
+# Create your models here.
 from asyncio.windows_events import NULL
 from email.policy import default
 from enum import unique
@@ -14,9 +17,10 @@ class Artiste(models.Model):
     
 
 class Song(models.Model):
-    title = models.CharField(max_length=100)
+    song_id = models.CharField(max_length=25,primary_key=True, serialize=True)
+    title = models.CharField(max_length=255)
     release_date = models.DateField() 
-    likes = models.DateField(max_length=50)
+    likes = models.IntegerField(default= NULL)
     artiste_id = models.ForeignKey(Artiste, on_delete=models.CASCADE)
 
 
@@ -25,4 +29,3 @@ class Lyric(models.Model):
     content = models.CharField(max_length=255)
     song_id = models.ForeignKey(Song, on_delete=models.CASCADE)
     
-   
