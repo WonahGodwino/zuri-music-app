@@ -21,6 +21,6 @@ from rest_framework import routers, serializers, viewsets
 urlpatterns = [
     path('', include('musicapp.urls')),
     path('admin/', admin.site.urls),
-   # path('ArtistesView',include('musicapp.urls'))
+    #path('ArtistesView',include('musicapp.urls'))
    
 ]
