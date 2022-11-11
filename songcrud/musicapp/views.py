@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Artiste ,Song, Lyric
 from .serializers import ArtisteSerializer #SongSerializer, LyricsSerializer
 from django.http import JsonResponse
-#from django.http import HttpResponse
+from django.http import HttpResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 
@@ -36,6 +36,38 @@ def ArtistesView(request):
             serializer.save()
             return JsonResponse(serializer.data,status = 201)
         return JsonResponse(serializer.errors, status = 400)
+
+@csrf_exempt
+def view_artiste(request,pk):
+    
+    try:
+        artiste_detail = Artiste.objects.get(pk=pk)
+    
+    except artiste_detail.DoesNotExist:
+        return HttpResponse(status=404)
+
+    
+    if request.method == 'GET':
+        serializer = ArtisteSerializer(artiste_detail)
+        return JsonResponse(serializer.data)
+        
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer =ArtisteSerializer(artiste_detail,data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+    
+    elif request.method == 'DELETE':
+        artiste_detail.delete()
+        return HttpResponse(status= 204)
+
+
+    
+
+
+
     '''elif request.method == 'DELETE':
         if Artistes.Objects.filter(**request.data).exist():
             serializer.delete()
