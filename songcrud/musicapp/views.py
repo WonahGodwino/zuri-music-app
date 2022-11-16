@@ -24,18 +24,37 @@ def ArtistesView(request):
         return JsonResponse(serializer.data, safe=False)
 
 
-    elif request.method == 'POST':
+    '''elif request.method == 'POST':
         #Artistes = Artiste.objects.all() #queryset
         data = JSONParser().parse(request)
         serializer = ArtisteSerializer(data = data)
         
-        #if Artistes.objects.filter(**request.data).exists():
+        #if Artiste.objects.all().distinct('artiste_id').exists():
             #raise serializer.ValidationError('This data already exists')
 
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data,status = 201)
-        return JsonResponse(serializer.errors, status = 400)
+        return JsonResponse(serializer.errors,status = 400)'''
+
+# add artist to the artistes model
+@csrf_exempt
+def add_artistes(request):
+    if request.method == 'POST':
+        Artistes = Artiste.objects.all() #queryset
+        serializer = ArtisteSerializer(Artistes, many = True)
+        data = JSONParser().parse(request)
+        serializer = ArtisteSerializer(data = data)
+        
+        #if Artiste.objects.all().distinct('artiste_id').exists():
+            #raise serializer.ValidationError('This data already exists')
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,status = 201)
+        return JsonResponse(serializer.errors,status = 400)
+
+# to view Artist by artist Id
 
 @csrf_exempt
 def view_artiste(request,pk):
@@ -57,7 +76,7 @@ def view_artiste(request,pk):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse(serializer.errors, pk,status=400)
     
     elif request.method == 'DELETE':
         artiste_detail.delete()
