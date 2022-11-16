@@ -25,7 +25,7 @@ This is Zuri Fullstack Web development (Python DJango) training Weekly Project
 
 ```http
   GET /api/items
-  http://127.0.0.1:8000/artistes/
+  http://127.0.0.1/artistes/
   
   To 
   
